@@ -6,10 +6,11 @@ from ase.visualize import view
 from ase.build import fcc111, bulk, surface
 from ase.constraints import FixAtoms, FixBondLengths
 from ase.io import write
-from ase.io import read 
+from ase.io import read
+from ase.calculators.emt import EMT
 
 a = 3.909 # approximate lattice constant
-b = a / 2   
+b = a / 2
 
 calc = Aims(xc='pbe',
            spin='none',
@@ -29,7 +30,7 @@ bulk = Atoms('Pd',
 
 bulk.get_potential_energy()
 #traj.write(bulk)
-energy_bulk=bulk.get_potential_energy() 
+energy_bulk=bulk.get_potential_energy()
 print ("potential-energy-bulk", energy_bulk)
 #print (energy_bulk)
 
@@ -38,7 +39,7 @@ from ase.io import write
 
 ## Edit these
 atomic_species='Pd'
-a2 = a                          
+a2 = a
 unit_cell_depth=3
 unit_cell_width=3
 slab_depth=4
@@ -70,10 +71,23 @@ slab.get_potential_energy()
 energy_slab=slab.get_potential_energy()
 print(slab.get_potential_energy())
 #print (energy_slab)
-
+M_M_x_width = a*(2**1/2)/2*unit_cell_width
 ######claculating the energy surface through  the 2 models: the first one is through energy per atom and the second one is energy by surface area which is a*a*sinO with O is 90 for 100 and 110 faces while it is 60 for 111 face
-
+print("FCC(111)")
 print ("energy of surface Esur1: ", (0.5*(energy_slab-36*energy_bulk))/9,  "ev/atom")
-print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(2*a*a*np.sin(np.deg2rad(60)))),  "ev/((A^2)"))
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*M_M_x_width*np.sin(np.deg2rad(60)))),  "ev/((A^2)"))
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*10**-10)**2*np.sin(np.deg2rad(60))))*1.6021773*(10**-19),  "J/(m^2)")
+print()
+print("FCC100")
+print ("energy of surface Esur1: ", (0.5*(energy_slab-36*energy_bulk))/9,  "ev/atom")
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*M_M_x_width)),  "ev/((A^2)"))
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*10**-10)**2))*1.6021773*(10**-19),  "J/(m^2)")
+print()
+print("FCC110")
+print ("energy of surface Esur1: ", (0.5*(energy_slab-36*energy_bulk))/9,  "ev/atom")
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*unit_cell_width*a)),  "ev/((A^2)"))
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*10**-10)*(unit_cell_width*a*10**-10)))*1.6021773*(10**-19),  "J/(m^2)")
+print()
+
 #traj.write(slab.traj)
 
