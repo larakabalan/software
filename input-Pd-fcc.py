@@ -72,6 +72,7 @@ energy_slab=slab.get_potential_energy()
 print(slab.get_potential_energy())
 #print (energy_slab)
 M_M_x_width = a*(2**1/2)/2*unit_cell_width
+M_M_x_width_110 = a*(2**1/2)/2*(unit_cell_width + 1)
 ######claculating the energy surface through  the 2 models: the first one is through energy per atom and the second one is energy by surface area which is a*a*sinO with O is 90 for 100 and 110 faces while it is 60 for 111 face
 print("FCC(111)")
 print ("energy of surface Esur1: ", (0.5*(energy_slab-36*energy_bulk))/9,  "ev/atom")
@@ -85,8 +86,8 @@ print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_wi
 print()
 print("FCC110")
 print ("energy of surface Esur1: ", (0.5*(energy_slab-36*energy_bulk))/9,  "ev/atom")
-print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*unit_cell_width*a)),  "ev/((A^2)"))
-print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*10**-10)*(unit_cell_width*a*10**-10)))*1.6021773*(10**-19),  "J/(m^2)")
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*M_M_with_110)),  "ev/((A^2)"))
+print ("energy of surface Esur2: ", (0.5*((energy_slab-36*energy_bulk)/(M_M_x_width*10**-10)*(M_M_width_110*10**-10)))*1.6021773*(10**-19),  "J/(m^2)")
 print()
 
 #traj.write(slab.traj)
